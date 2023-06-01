@@ -2,23 +2,20 @@ package com.demo.springreact.controller;
 
 import com.demo.springreact.dto.JoinDTO;
 import com.demo.springreact.entity.Authority;
-import com.demo.springreact.entity.Member;
 import com.demo.springreact.service.MemberService;
-import com.demo.springreact.token.JwtTokenProvider;
+import com.demo.springreact.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @Controller
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final TokenProvider tokenProvider;
     private final MemberService memberService;
 
     @PostMapping("/login")
@@ -29,6 +26,6 @@ public class LoginController {
             e.printStackTrace();
             return null;
         }
-        return jwtTokenProvider.createToken(loginDTO.getEmail(), Authority.USER);
+        return tokenProvider.createToken(loginDTO.getEmail(), Authority.USER);
     }
 }

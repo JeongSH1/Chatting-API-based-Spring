@@ -13,9 +13,9 @@ function NotFound() {
 
 
 function App() {
-    useEffect(() => {
+    const [user, setUser] = useState(null);
+    const authenticated = user != null;
 
-    },[]);
     return (
         <div className="App">
             <Provider store={store}>

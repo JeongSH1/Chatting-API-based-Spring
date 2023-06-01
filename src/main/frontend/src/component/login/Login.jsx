@@ -4,7 +4,6 @@ import axios from "axios";
 import {useDispatch, connect, useSelector} from "react-redux";
 import { setToken } from "./TokenSlice";
 import Modal from "react-bootstrap/Modal";
-import Main from "../js/Main";
 
 const Login = (props) => {
 
@@ -14,6 +13,7 @@ const Login = (props) => {
     const token = useSelector((state) => state.token.value);
     const dispatch = useDispatch();
     const [modalShow, setModalShow] = useState(false);
+    const [modalContent, setModalContent] = useState("");
 
     const onEmailChange = (e) => {
         setEmail(e.target.value);
@@ -35,10 +35,17 @@ const Login = (props) => {
             data: formData,
             withCredentials:true,
         }).then(response => {
-            if (response.data === '')
+            if (response.data === '') {
+                setModalContent("존재하지 않는 회원입니다.");
                 setModalShow(true);
+            }
             else {
+                setModalContent("로그인 성공");
+                setModalShow(true);
                 dispatch(setToken(response.data));
+                localStorage.setItem("token", response.data);
+                console.log(localStorage.getItem("token"));
+                window.location.href = "/main";
             }
         })
     };
@@ -57,7 +64,7 @@ const Login = (props) => {
                         알림
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>존재하지 않는 회원입니다.</Modal.Body>
+                <Modal.Body>{modalContent}</Modal.Body>
             </Modal>
 
             <form className="Auth-form" onSubmit={onSubmit}>
