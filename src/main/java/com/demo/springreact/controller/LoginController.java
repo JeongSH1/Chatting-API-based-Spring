@@ -1,16 +1,13 @@
 package com.demo.springreact.controller;
 
 import com.demo.springreact.dto.JoinDTO;
-import com.demo.springreact.entity.Authority;
 import com.demo.springreact.service.MemberService;
 import com.demo.springreact.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Controller
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
@@ -26,6 +23,7 @@ public class LoginController {
             e.printStackTrace();
             return null;
         }
-        return tokenProvider.createToken(loginDTO.getEmail(), Authority.USER);
+        //return tokenProvider.createToken(loginDTO.getEmail(), Authority.USER);
+        return "A";
     }
 }

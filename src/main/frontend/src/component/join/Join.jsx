@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import "./join.css";
 import axios from "axios";
 import Modal from 'react-bootstrap/Modal';
-import {Button} from "react-bootstrap";
 
-const Join = (props) => {
+const Join = () => {
 
     const formData = new FormData();
     const [modalShow, setModalShow] = useState(false);
@@ -37,13 +36,14 @@ const Join = (props) => {
             data: formData,
             withCredentials:true,
         }).then(response => {
+            const responseStatus = response.data.responseStatus;
+
+            if (responseStatus === "JOIN_SUCCESS")
+                setModalContent("회원가입 완료")
+            if (responseStatus === "JOIN_FAIL")
+                setModalContent("이미 존재하는 회원입니다.");
+
             setModalShow(true);
-            if (!response.data) {
-                setModalContent("이미 존재하는 회원입니다.")
-            }
-            else {
-                setModalContent("회원가입 완료!")
-            }
         })
     };
 
