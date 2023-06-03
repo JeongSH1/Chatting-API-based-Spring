@@ -32,11 +32,11 @@ public class TokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + accessTokenExpireTime))
-                .signWith(key, SignatureAlgorithm.HS512)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         String refreshToken = Jwts.builder()
                 .setExpiration(new Date(now.getTime() + refreshTokenExpireTime))
-                .signWith(key, SignatureAlgorithm.HS512)
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
         return Token.builder()
