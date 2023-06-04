@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter @Setter
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
     @Column(nullable = false)
@@ -24,4 +28,7 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    @ManyToMany(mappedBy = "members")
+    List<ChattingRoom> chattingRoomList = new ArrayList<>();
 }

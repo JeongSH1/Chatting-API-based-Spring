@@ -11,6 +11,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    user:
+      password: 47a120f6-912d-4eb0-9d95-e2650d65e6ac
 
 logging:
   level:
@@ -22,6 +25,8 @@ jwt:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+
 
 
 

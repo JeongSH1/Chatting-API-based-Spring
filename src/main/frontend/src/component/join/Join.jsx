@@ -37,7 +37,7 @@ const Join = () => {
             withCredentials:true,
         }).then(response => {
             const responseStatus = response.data.responseStatus;
-
+            console.log(response);
             if (responseStatus === "JOIN_SUCCESS")
                 setModalContent("회원가입 완료")
             if (responseStatus === "JOIN_FAIL")
