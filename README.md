@@ -1,4 +1,5 @@
-# chat
+
+<p style = "font-size: 30px;">Spring security + jwt token</p>
 
 localhost:3000/login<br>
 <img width="569" alt="image" src="https://github.com/JeongSH1/chat/assets/125888614/1374cd52-3554-401a-bc17-e70f078519ee">
