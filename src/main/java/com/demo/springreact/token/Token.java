@@ -1,11 +1,14 @@
 package com.demo.springreact.token;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
-@Builder
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Token {
-    private String accessToken;
-    private String refreshToken;
+
+    private  String accessToken;
+    private  String refreshToken;
 
 }

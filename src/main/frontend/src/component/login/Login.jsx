@@ -45,8 +45,7 @@ const Login = (props) => {
                 setModalContent("로그인 성공");
                 setModalShow(true);
                 dispatch(setToken(response.data));
-                localStorage.setItem("token", response.data);
-                console.log(localStorage.getItem("token"));
+                localStorage.setItem("token", JSON.stringify(response.data.data));
                 window.location.href = "/main";
             }
         })

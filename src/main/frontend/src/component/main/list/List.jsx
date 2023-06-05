@@ -1,9 +1,25 @@
 import React from "react";
 import {MDBCol, MDBIcon, MDBInputGroup, MDBTypography} from "mdb-react-ui-kit";
 import ListFragment from "./ListFragment";
+import axios from "axios";
 
 const List = () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    console.log(token)
+    const load = async () => {
 
+        await axios({
+            method: "POST",
+            url: "/load",
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            data: token,
+            withCredentials: true,
+        });
+
+    }
+    load();
     return (
         <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
             <div className="p-3">
