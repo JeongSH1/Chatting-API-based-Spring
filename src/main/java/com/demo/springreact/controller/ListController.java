@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ListController {
     @PostMapping("/load")
     public void load(@RequestBody Token token) {
-        System.out.println("token = " + token);
+
     }
 }

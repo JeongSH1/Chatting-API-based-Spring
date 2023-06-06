@@ -7,7 +7,6 @@ const List = () => {
     const token = JSON.parse(localStorage.getItem("token"));
     console.log(token)
     const load = async () => {
-
         await axios({
             method: "POST",
             url: "/load",
