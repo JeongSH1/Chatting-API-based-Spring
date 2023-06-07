@@ -4,9 +4,9 @@ import ListFragment from "./ListFragment";
 import axios from "axios";
 
 const List = () => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    console.log(token)
+    const token = localStorage.getItem("token");
     const load = async () => {
+
         await axios({
             method: "POST",
             url: "/load",
