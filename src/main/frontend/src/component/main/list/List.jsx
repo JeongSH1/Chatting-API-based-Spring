@@ -9,7 +9,7 @@ const List = () => {
 
         await axios({
             method: "POST",
-            url: "/load",
+            url: "/load/list",
             headers: {
                 "Content-Type" : "application/json",
             },

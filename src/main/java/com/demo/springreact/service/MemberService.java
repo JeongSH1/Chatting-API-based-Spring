@@ -2,12 +2,15 @@ package com.demo.springreact.service;
 
 import com.demo.springreact.dto.JoinDTO;
 import com.demo.springreact.dto.LoginDTO;
+import com.demo.springreact.entity.ChattingRoom;
 import com.demo.springreact.entity.Member;
 import com.demo.springreact.repository.MemberRepository;
+import com.demo.springreact.token.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,10 +38,11 @@ public class MemberService {
        }
     }
 
-//    @Transactional
-//    public List<ChattingRoom> loadChattingRoom(Token token) {
-//
-//    }
+    @Transactional
+    public List<ChattingRoom> loadChattingRoom(String email) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        return findMember.map(Member::getChattingRoomList).orElse(null);
+    }
 
     private void validateDuplicateMember(String email) {
 
