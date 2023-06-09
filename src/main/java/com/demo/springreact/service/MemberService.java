@@ -2,6 +2,7 @@ package com.demo.springreact.service;
 
 import com.demo.springreact.dto.JoinDTO;
 import com.demo.springreact.dto.LoginDTO;
+import com.demo.springreact.dto.MemberDTO;
 import com.demo.springreact.entity.ChattingRoom;
 import com.demo.springreact.entity.Member;
 import com.demo.springreact.repository.MemberRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Transactional
     public void join(JoinDTO joinDTO) {
         validateDuplicateMember(joinDTO.getEmail());
         Member member = new Member();
@@ -30,7 +31,6 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    @Transactional
     public void login(LoginDTO loginDTO) {
        Optional<Member> findMember = memberRepository.findByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword());
        if (findMember.isEmpty()) {
@@ -38,10 +38,15 @@ public class MemberService {
        }
     }
 
-    @Transactional
     public List<ChattingRoom> loadChattingRoom(String email) {
         Optional<Member> findMember = memberRepository.findByEmail(email);
         return findMember.map(Member::getChattingRoomList).orElse(null);
+    }
+
+    public List<MemberDTO> loadMembers() {
+        List<MemberDTO> members = new ArrayList<>();
+        memberRepository.findAll().forEach(i -> members.add(new MemberDTO(i.getNickname())));
+        return members;
     }
 
     private void validateDuplicateMember(String email) {
