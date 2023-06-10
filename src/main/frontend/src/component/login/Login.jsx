@@ -10,7 +10,6 @@ const Login = (props) => {
     const formData = new FormData();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const token = useSelector((state) => state.token.value);
     const dispatch = useDispatch();
     const [modalShow, setModalShow] = useState(false);
     const [modalContent, setModalContent] = useState("");

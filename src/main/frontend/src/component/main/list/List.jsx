@@ -4,10 +4,12 @@ import ListFragment from "./ListFragment";
 import axios from "axios";
 import {ButtonGroup, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import "./list.css"
+import MemberList from "./MemberList";
 
 const List = () => {
     const token = localStorage.getItem("token");
     const [members, setMembers] = useState([]);
+    const [visible, setVisible] = useState(false);
 
     const loadChatList = async () => {
 
@@ -23,56 +25,25 @@ const List = () => {
 
     }
 
-
-    const loadMembers = async () => {
-        await axios({
-            method: "POST",
-            url: "/load/members",
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            data: token,
-            withCredentials: true,
-        }).then(response => {
-            setMembers(response.data.data);
-            console.log(members)
-        })
-    }
-
     const create = async () => {
-
-        await axios({
-            method: "POST",
-            url: "/chat/create",
-            headers: {
-                "Content-Type" : "application/json",
-            },
-            data: token,
-            withCredentials: true,
-        })
+        // await axios({
+        //     method: "POST",
+        //     url: "/chat/create",
+        //     headers: {
+        //         "Content-Type" : "application/json",
+        //     },
+        //     data: token,
+        //     withCredentials: true,
+        // })
+        visible ? setVisible(false) : setVisible(true);
     }
     loadChatList();
     return (
         <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
-            <div className= "list_header">
-                <Dropdown as={ButtonGroup}>
-                    <Button onClick={loadMembers}>Chatting List</Button>
-                    <Dropdown.Toggle split id="dropdown-custom-2"/>
-                    <Dropdown.Menu>
-                        {
-                            members.map((member, idx) => {
-                                return <Dropdown.Item eventKey={idx} key={idx}>{member.name}</Dropdown.Item>
-                            })
-                        }
-
-                        <Dropdown.Divider />
-                        <Dropdown.Item eventKey="99">Separated link</Dropdown.Item>
-                        <Dropdown.Item eventKey="100" active>
-                            create
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div>
+            {visible ?  <MemberList /> : null}
+            <Button variant="primary" size="lg" className="btn_create" onClick={create}>
+                create
+            </Button>
             <div className="p-3">
                 <MDBInputGroup className="rounded mb-3">
                     <input

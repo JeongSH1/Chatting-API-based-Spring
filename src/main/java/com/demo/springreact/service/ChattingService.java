@@ -20,6 +20,7 @@ public class ChattingService {
     public Long createRoom(Member...members) {
         ChattingRoom chattingRoom = new ChattingRoom();
         chattingRoom.setMembers(new ArrayList<>(Arrays.asList(members)));
+        chattingRoom.setName(Arrays.toString(members));
         ChattingRoom createdChattingRoom = chattingRepository.save(chattingRoom);
         return createdChattingRoom.getId();
     }

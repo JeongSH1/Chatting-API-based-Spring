@@ -22,6 +22,9 @@ public class ChattingRoom {
             inverseJoinColumns = @JoinColumn(name = "member_id"))
     private List<Member> members = new ArrayList<>();
 
+    @Column(name = "room_name")
+    private String name;
+
     @OneToMany(mappedBy = "chattingRoom", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 
