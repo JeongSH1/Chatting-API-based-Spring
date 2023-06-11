@@ -1,15 +1,17 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {MDBCol, MDBIcon, MDBInputGroup, MDBTypography} from "mdb-react-ui-kit";
 import ListFragment from "./ListFragment";
 import axios from "axios";
 import {ButtonGroup, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import "./list.css"
 import MemberList from "./MemberList";
+import {useNavigate} from "react-router-dom";
 
 const List = () => {
     const token = localStorage.getItem("token");
     const [members, setMembers] = useState([]);
     const [visible, setVisible] = useState(false);
+    const navigate = useNavigate();
 
     const loadChatList = async () => {
 
@@ -37,12 +39,23 @@ const List = () => {
         // })
         visible ? setVisible(false) : setVisible(true);
     }
-    loadChatList();
+
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    }
+    useEffect(() => {
+        loadChatList();
+    }, [])
+
     return (
         <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
             {visible ?  <MemberList /> : null}
             <Button variant="primary" size="lg" className="btn_create" onClick={create}>
                 create
+            </Button>
+            <Button variant="primary" size="lg" className="btn_logout" onClick={logout}>
+                logout
             </Button>
             <div className="p-3">
                 <MDBInputGroup className="rounded mb-3">

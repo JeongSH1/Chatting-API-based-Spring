@@ -23,7 +23,7 @@ public class LoadController {
     private final MemberService memberService;
     @PostMapping("/load/list")
     public List<ChattingRoom> load(@RequestBody Token token) {
-        if (tokenVerifier.verifyToken(token.getAccessToken()))
+        if (tokenVerifier.verifyToken(token))
             return memberService.loadChattingRoom(tokenVerifier.parseClaims(token.getAccessToken()).getSubject());
         else
             return null;

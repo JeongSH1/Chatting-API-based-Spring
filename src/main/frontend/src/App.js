@@ -1,32 +1,56 @@
-import React, {useState} from "react";
-import {BrowserRouter, Route, Routes, } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {BrowserRouter, createBrowserRouter, redirect, Route, Routes, useNavigate,} from "react-router-dom";
 import Main from "./component/main/Main";
 import Login from "./component/login/Login";
 import { Provider } from "react-redux";
 import store from "./component/redux/Store";
 import Join from "./component/join/Join";
 import List from "./component/main/list/List";
+import axios from "axios";
+import {createBrowserHistory} from "history";
 
 function NotFound() {
     return null;
 }
-
-
 function App() {
-    const [user, setUser] = useState(null);
-    const authenticated = user != null;
+    const [authenticated, setAuthenticated] = useState(false);
+    const navigate = useNavigate();
+    const authenticate = async () => {
+
+        await axios({
+            method: "POST",
+            url: "/authenticate",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            data: localStorage.getItem("token"),
+            withCredentials: true,
+        }).then(response => {
+            const status = response.data.responseStatus;
+            return status === "AUTHENTICATED";
+        });
+    }
+    useEffect(() => {
+        authenticate()
+    }, []);
+
+    useEffect(() => {
+        console.log(authenticated);
+        if ((!authenticated) && window.location.pathname === "/")
+            navigate("/login")
+        if ((!authenticated) && window.location.pathname === "/" )
+            navigate("/login");
+    }, [authenticated]);
 
     return (
         <div className="App">
             <Provider store={store}>
-                <BrowserRouter>
-                        <Routes>
-                            <Route path="/main/*" element={<List/>}></Route>
-                            <Route path="/join/*" element={<Join/>}></Route>
-                            <Route path="/login/*" element={<Login/>}></Route>
-                            <Route path="*" element={<NotFound />}></Route>
-                        </Routes>
-                </BrowserRouter>
+                <Routes>
+                    <Route path="/main/*" element={<List/>}></Route>
+                    <Route path="/join/*" element={<Join/>}></Route>
+                    <Route path="/login/*" element={<Login/>}></Route>
+                    <Route path="*" element={<NotFound />}></Route>
+                </Routes>
             </Provider>
         </div>
     );

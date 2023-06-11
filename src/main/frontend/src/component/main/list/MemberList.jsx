@@ -40,7 +40,7 @@ const MemberList = () => {
     const [selectedMembers, setSelectedMembers] = useState([])
 
     useEffect(() => {
-        loadMembers().then(r => console.log(r));
+        loadMembers()
     }, [])
 
     return (
@@ -51,7 +51,7 @@ const MemberList = () => {
                     members.map((member, idx) => {
                         return (
                         <ListGroup.Item key={idx}>
-                            <Form.Check aria-label="option 1" className="me-2 d-inline" onChange={}/>
+                            <Form.Check aria-label="option 1" className="me-2 d-inline" />
                             {member.name}
                         </ListGroup.Item>)
                     })

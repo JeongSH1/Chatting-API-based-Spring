@@ -11,6 +11,8 @@ import {
 } from "mdb-react-ui-kit";
 
 const Main = () => {
+
+
     return (
         <MDBContainer fluid className="py-5" style={{ backgroundColor: "#CDC4F9" }}>
             <MDBRow>
@@ -18,7 +20,6 @@ const Main = () => {
                     <MDBCard id="chat3" style={{ borderRadius: "15px" }}>
                         <MDBCardBody>
                             <MDBRow>
-
                                 <MDBCol md="6" lg="7" xl="8">
 
                                         <div className="d-flex flex-row justify-content-start">
