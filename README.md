@@ -1,8 +1,38 @@
 
-<p style = "font-size: 100px; font-weight: 800;">Spring security + jwt token</p>
+<p style = "font-size: 100px; font-weight: bold">jwt token</p>
 
-localhost:3000/login<br>
-<img width="569" alt="image" src="https://github.com/JeongSH1/chat/assets/125888614/1374cd52-3554-401a-bc17-e70f078519ee">
+/join<br>
+```agsl
+{
+  "nickname": "string",
+  "email": "string",
+  "password": "string"
+}
+```
 
-localhost:3000/join<br>
-<img width="527" alt="image" src="https://github.com/JeongSH1/chat/assets/125888614/a0cdd11f-77f0-41e5-82fa-e38a8a20c83f">
+```
+{
+  "responseStatus": "JOIN_SUCCESS",
+  "data": {}
+}
+```
+
+/login
+```agsl
+{
+  "email": "string",
+  "password": "string"
+}
+
+```
+
+```agsl
+{
+  "responseStatus": "LOGIN_SUCCESS",
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJyb2xlcyI6IlVTRVIiLCJpYXQiOjE2ODY1NTYxNTksImV4cCI6MTY4NjU1Nzk1OX0.K2gvV9yEOHSrOdBpzzvJ_qBSKxY7YrMhY9aKbeEOhgk",
+    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2ODY1NjMzNTl9.P8ZvGmeSawCwJuVQn09xu_sJQvyzsHpdeFmOAPBK25s"
+  }
+}
+```
+
