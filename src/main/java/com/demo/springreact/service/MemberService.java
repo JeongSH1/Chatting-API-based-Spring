@@ -44,9 +44,9 @@ public class MemberService {
     }
 
     public List<MemberDTO> loadMembers() {
-        List<MemberDTO> members = new ArrayList<>();
-        memberRepository.findAll().forEach(i -> members.add(new MemberDTO(i.getNickname())));
-        return members;
+        List<MemberDTO> memberDTOs = new ArrayList<>();
+        memberRepository.findAll().forEach(i -> memberDTOs.add(i.toDTO()));
+        return memberDTOs;
     }
 
     private void validateDuplicateMember(String email) {

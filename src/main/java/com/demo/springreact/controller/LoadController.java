@@ -32,7 +32,7 @@ public class LoadController {
     @PostMapping("/load/members")
     public ResponseEntity<ResponseMessage> loadMembers (@RequestBody Token token) {
         ResponseMessage responseMessage;
-        log.info("load합니다.");
+        log.info("목록을 불러옵니다. " + tokenVerifier.parseClaims(token.getAccessToken()));
         try {
             responseMessage = new ResponseMessage(ResponseStatus.LOAD_MEMBERS_SUCCESS,
                     memberService.loadMembers());

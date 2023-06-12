@@ -1,5 +1,6 @@
 package com.demo.springreact.entity;
 
+import com.demo.springreact.dto.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,4 +32,8 @@ public class Member {
 
     @ManyToMany(mappedBy = "members")
     List<ChattingRoom> chattingRoomList = new ArrayList<>();
+
+    public MemberDTO toDTO() {
+        return new MemberDTO(this.id, this.nickname);
+    }
 }

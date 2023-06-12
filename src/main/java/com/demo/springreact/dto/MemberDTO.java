@@ -1,10 +1,11 @@
 package com.demo.springreact.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@RequiredArgsConstructor
-@Getter
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
-    private final String name;
+    private Long id;
+    private String nickname;
 }

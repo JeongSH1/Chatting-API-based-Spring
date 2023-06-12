@@ -5,6 +5,9 @@ import axios from "axios";
 
 const MemberList = () => {
 
+    const formData = new FormData();
+    const [members, setMembers] = useState([])
+    const [selectedMembers, setSelectedMembers] = useState([])
 
     const loadMembers = async () => {
         await axios({
@@ -17,11 +20,11 @@ const MemberList = () => {
             withCredentials: true,
         }).then(response => {
             setMembers(response.data.data);
-            console.log(members)
         })
     }
 
-    const createRoom = async () => {
+    const createRoom = async (e) => {
+        e.preventDefault();
         await axios({
             method: "POST",
             url: "/chat/create",
@@ -31,32 +34,34 @@ const MemberList = () => {
             data: selectedMembers,
             withCredentials: true,
         }).then(response => {
-            setMembers(response.data.data);
-            console.log(members)
+            console.log(response);
+            alert(response);
         })
     }
-    const formData = new FormData();
-    const [members, setMembers] = useState([])
-    const [selectedMembers, setSelectedMembers] = useState([])
+
+    const onChange = (e) => {
+        e.target.checked ? setSelectedMembers([...selectedMembers, e.target.value])
+            :setSelectedMembers(selectedMembers.filter(m => m !== e.target.value))
+    }
 
     useEffect(() => {
+        console.log(members);
         loadMembers()
     }, [])
-
     return (
         <div className="member_list">
             <ListGroup>
-                <Form>
+                <Form onSubmit={createRoom}>
                 {
                     members.map((member, idx) => {
                         return (
                         <ListGroup.Item key={idx}>
-                            <Form.Check aria-label="option 1" className="me-2 d-inline" />
-                            {member.name}
+                            <Form.Check aria-label="option 1" className="me-2 d-inline" value={JSON.stringify(member)} onClick={onChange}/>
+                            {member.nickname}
                         </ListGroup.Item>)
                     })
                 }
-                    <Button type="submit" variant="primary" onSubmit={createRoom}>Create</Button>{' '}
+                    <Button type="submit" variant="primary" >Create</Button>{' '}
                 </Form>
             </ListGroup>
         </div>

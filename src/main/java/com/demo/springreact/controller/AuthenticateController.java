@@ -3,7 +3,6 @@ package com.demo.springreact.controller;
 import com.demo.springreact.response.ResponseMessage;
 import com.demo.springreact.response.ResponseStatus;
 import com.demo.springreact.token.Token;
-import com.demo.springreact.token.TokenProvider;
 import com.demo.springreact.token.TokenVerifier;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
