@@ -5,7 +5,6 @@ import axios from "axios";
 
 const MemberList = () => {
 
-    const formData = new FormData();
     const [members, setMembers] = useState([])
     const [selectedMembers, setSelectedMembers] = useState([])
 
@@ -56,7 +55,7 @@ const MemberList = () => {
                     members.map((member, idx) => {
                         return (
                         <ListGroup.Item key={idx}>
-                            <Form.Check aria-label="option 1" className="me-2 d-inline" value={JSON.stringify(member)} onClick={onChange}/>
+                            <Form.Check aria-label="option 1" className="me-2 d-inline" value={member.id} onClick={onChange}/>
                             {member.nickname}
                         </ListGroup.Item>)
                     })

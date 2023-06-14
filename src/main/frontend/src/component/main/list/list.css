@@ -5,10 +5,9 @@
 
 .btn_wrap {
     display: flex;
-    position: absolute;
+    position: fixed;
     z-index: 1;
     top: 80%;
-    left: 35%;
     gap: 3%;
 }
 

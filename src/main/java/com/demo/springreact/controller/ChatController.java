@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,7 +26,7 @@ public class ChatController {
     
     private final ChattingService chattingService;
     @PostMapping("/create")
-    public ResponseEntity<ResponseMessage> create(@RequestBody ArrayList<MemberDTO> selected) {
+    public ResponseEntity<ResponseMessage> create(@RequestBody ArrayList<Long> selected) {
         ResponseMessage responseMessage;
         log.info("채팅방을 만듭니다." + selected.stream().map(Object::toString).toList());
         try {

@@ -11,10 +11,10 @@ const List = () => {
     const token = localStorage.getItem("token");
     const [members, setMembers] = useState([]);
     const [visible, setVisible] = useState(false);
+    const [chatList, setChatList] = useState([]);
     const navigate = useNavigate();
 
     const loadChatList = async () => {
-
         await axios({
             method: "POST",
             url: "/load/list",
@@ -23,6 +23,8 @@ const List = () => {
             },
             data: token,
             withCredentials: true,
+        }).then((response) => {
+            console.log(response);
         });
 
     }
@@ -45,8 +47,8 @@ const List = () => {
         navigate("/login");
     }
     useEffect(() => {
-        loadChatList();
-    }, [])
+        loadChatList().then();
+    }, [chatList])
 
     return (
         <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">

@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class AuthenticateController {
-
     private final TokenVerifier tokenVerifier;
 
     @PostMapping("/authenticate")
     public ResponseEntity<ResponseMessage> authenticate(@RequestBody @Nullable Token token) {
         ResponseMessage responseMessage;
-
         if (tokenVerifier.verifyToken(token)) {
             responseMessage = new ResponseMessage(ResponseStatus.AUTHENTICATED, null);
         }
@@ -29,7 +27,6 @@ public class AuthenticateController {
         }
         return ResponseEntity.ok()
                 .body(responseMessage);
-
     }
 
 

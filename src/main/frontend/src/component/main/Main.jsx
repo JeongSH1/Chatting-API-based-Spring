@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     MDBContainer,
     MDBRow,
@@ -9,8 +9,12 @@ import {
     MDBTypography,
     MDBInputGroup,
 } from "mdb-react-ui-kit";
+import List from "./list/List";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
-const Main = () => {
+const Main = (props) => {
+    const navigate = useNavigate();
 
 
     return (
@@ -20,8 +24,8 @@ const Main = () => {
                     <MDBCard id="chat3" style={{ borderRadius: "15px" }}>
                         <MDBCardBody>
                             <MDBRow>
+                                {props.authenticated ? <List/> : null}
                                 <MDBCol md="6" lg="7" xl="8">
-
                                         <div className="d-flex flex-row justify-content-start">
                                             <img
                                                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"

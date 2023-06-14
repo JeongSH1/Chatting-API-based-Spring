@@ -1,8 +1,8 @@
 package com.demo.springreact.controller;
 
-import com.demo.springreact.entity.ChattingRoom;
 import com.demo.springreact.response.ResponseMessage;
 import com.demo.springreact.response.ResponseStatus;
+import com.demo.springreact.service.ChattingService;
 import com.demo.springreact.service.MemberService;
 import com.demo.springreact.token.Token;
 import com.demo.springreact.token.TokenVerifier;
@@ -21,12 +21,20 @@ import java.util.List;
 public class LoadController {
     private final TokenVerifier tokenVerifier;
     private final MemberService memberService;
+    private final ChattingService chattingService;
     @PostMapping("/load/list")
-    public List<ChattingRoom> load(@RequestBody Token token) {
-        if (tokenVerifier.verifyToken(token))
-            return memberService.loadChattingRoom(tokenVerifier.parseClaims(token.getAccessToken()).getSubject());
-        else
-            return null;
+    public ResponseEntity<ResponseMessage> loadChattingRoom(@RequestBody Token token) {
+        ResponseMessage responseMessage;
+        log.info("채팅목록을 불러옵니다. " + tokenVerifier.parseClaims(token.getAccessToken()).getSubject());
+        try {
+            responseMessage = new ResponseMessage(ResponseStatus.LOAD_CHATTING_ROOM_SUCCESS,
+                    chattingService.loadChattingRoom(tokenVerifier.parseClaims(token.getAccessToken()).getSubject()).toString());
+        } catch (Exception e) {
+            responseMessage = new ResponseMessage(ResponseStatus.LOAD_CHATTING_ROOM_FAIL, null);
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok()
+                .body(responseMessage);
     }
 
     @PostMapping("/load/members")

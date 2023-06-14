@@ -13,40 +13,38 @@ function NotFound() {
     return null;
 }
 function App() {
-    const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
-    const authenticate = async () => {
-
-        await axios({
-            method: "POST",
-            url: "/authenticate",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            data: localStorage.getItem("token"),
-            withCredentials: true,
-        }).then(response => {
-            const status = response.data.responseStatus;
-            return status === "AUTHENTICATED";
-        });
-    }
+    const [authenticated, setAuthenticated] = useState(true);
     useEffect(() => {
-        authenticate()
-    }, []);
+        const authenticate = async () => {
+            await axios({
+                method: "POST",
+                url: "/authenticate",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                data: localStorage.getItem("token"),
+                withCredentials: true,
+            }).then(response => {
+                const status = response.data.responseStatus;
+                (status === "AUTHENTICATED") ? setAuthenticated(true) : setAuthenticated(false);
+                if (!authenticated)
+                    navigate("/login");
+            });
+        }
+        authenticate().then();
+    }, [authenticated])
 
     useEffect(() => {
-        console.log(authenticated);
-        if ((!authenticated) && window.location.pathname === "/")
+        if ((window.location.pathname === "/"))
             navigate("/login")
-        if ((!authenticated) && window.location.pathname === "/" )
-            navigate("/login");
-    }, [authenticated]);
+    }, []);
 
     return (
         <div className="App">
             <Provider store={store}>
                 <Routes>
-                    <Route path="/main/*" element={<List/>}></Route>
+                    <Route path="/main/*" element={<Main authenticated = {authenticated}/>}></Route>
                     <Route path="/join/*" element={<Join/>}></Route>
                     <Route path="/login/*" element={<Login/>}></Route>
                     <Route path="*" element={<NotFound />}></Route>
