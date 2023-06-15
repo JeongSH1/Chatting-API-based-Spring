@@ -2,6 +2,7 @@ package com.demo.springreact.entity;
 
 import com.demo.springreact.dto.MemberDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -36,17 +36,13 @@ const Join = () => {
             data: formData,
             withCredentials:true,
         }).then(response => {
-            const responseStatus = response.data.responseStatus;
-            console.log(response);
-            if (responseStatus === "JOIN_SUCCESS")
-                setModalContent("회원가입 완료")
-            if (responseStatus === "JOIN_FAIL")
-                setModalContent("이미 존재하는 회원입니다.");
-
+            setModalContent("회원가입 완료")
+            setModalShow(true);
+        }).catch((response) => {
+            setModalContent("이미 존재하는 회원입니다.");
             setModalShow(true);
         })
     };
-
     return (
         <div className="Auth-form-container">
 

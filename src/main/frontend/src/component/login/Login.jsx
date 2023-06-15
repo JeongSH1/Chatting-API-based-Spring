@@ -34,19 +34,14 @@ const Login = (props) => {
             data: formData,
             withCredentials:true,
         }).then(response => {
-            const status = response.data.responseStatus;
-            console.log(response);
-            if (status === "LOGIN_FAIL") {
-                setModalContent("존재하지 않는 회원입니다.");
-                setModalShow(true);
-            }
-            if (status === "LOGIN_SUCCESS"){
-                setModalContent("로그인 성공");
-                setModalShow(true);
-                dispatch(setToken(response.data));
-                localStorage.setItem("token", JSON.stringify(response.data.data));
-                window.location.href = "/main";
-            }
+            setModalContent("로그인 성공");
+            setModalShow(true);
+            dispatch(setToken(response.data));
+            localStorage.setItem("token", JSON.stringify(response.data.data));
+            window.location.href = "/main";
+        }).catch(response => {
+            setModalContent(response.response.data.code);
+            setModalShow(true);
         })
     };
 

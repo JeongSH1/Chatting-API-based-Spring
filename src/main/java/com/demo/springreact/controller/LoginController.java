@@ -6,6 +6,7 @@ import com.demo.springreact.entity.Authority;
 import com.demo.springreact.entity.Member;
 import com.demo.springreact.response.ResponseMessage;
 import com.demo.springreact.response.ResponseStatus;
+import com.demo.springreact.response.SuccessResponse;
 import com.demo.springreact.service.MemberService;
 import com.demo.springreact.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -26,18 +27,7 @@ public class LoginController {
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseMessage> login(@RequestBody LoginDTO loginDTO) {
-        ResponseMessage responseMessage;
-        try {
-            memberService.login(loginDTO);
-            responseMessage = new ResponseMessage(ResponseStatus.LOGIN_SUCCESS,
-                    tokenProvider.createToken(loginDTO.getEmail(), Authority.USER));
-            log.info("로그인 성공: " + loginDTO);
-        } catch (IllegalArgumentException e) {
-            responseMessage = new ResponseMessage(ResponseStatus.LOGIN_FAIL, null);
-            log.info("로그인 실패: " + loginDTO);
-        }
-        return ResponseEntity.ok()
-                .body(responseMessage);
+    public ResponseEntity<SuccessResponse> login(@RequestBody LoginDTO loginDTO) {
+        return memberService.login(loginDTO);
     }
 }

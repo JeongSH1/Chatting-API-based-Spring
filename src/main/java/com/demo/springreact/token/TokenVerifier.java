@@ -20,22 +20,20 @@ public class TokenVerifier {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean verifyToken(Token token) {
+    public void verifyToken(Token token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token.getAccessToken());
-            return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
+            log.error("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            log.error("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
+            log.error("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e1) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            log.error("JWT 토큰이 잘못되었습니다.");
         } catch (NullPointerException e) {
-            log.info("JWT 토큰이 존재하지 않습니다.");
+            log.error("JWT 토큰이 존재하지 않습니다.");
         }
-        return false;
     }
 
     public Claims parseClaims(String accessToken) {

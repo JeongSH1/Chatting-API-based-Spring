@@ -25,6 +25,9 @@ const List = () => {
             withCredentials: true,
         }).then((response) => {
             console.log(response);
+        }).catch((response) => {
+            alert(response.response.data.code);
+            navigate("/login");
         });
 
     }

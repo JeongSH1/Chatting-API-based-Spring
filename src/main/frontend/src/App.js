@@ -44,7 +44,7 @@ function App() {
         <div className="App">
             <Provider store={store}>
                 <Routes>
-                    <Route path="/main/*" element={<Main authenticated = {authenticated}/>}></Route>
+                    {(authenticated) ?(<Route path="/main/*" element={<Main authenticated = {authenticated}/>}></Route>) : null}
                     <Route path="/join/*" element={<Join/>}></Route>
                     <Route path="/login/*" element={<Login/>}></Route>
                     <Route path="*" element={<NotFound />}></Route>
