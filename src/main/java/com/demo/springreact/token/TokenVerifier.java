@@ -1,5 +1,7 @@
 package com.demo.springreact.token;
 
+import com.demo.springreact.exception.CustomException;
+import com.demo.springreact.error.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -20,34 +22,34 @@ public class TokenVerifier {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public void verifyToken(Token token) {
+    public boolean verifyToken(Token token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token.getAccessToken());
+            return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.error("잘못된 JWT 서명입니다.");
+            throw new CustomException(ErrorCode.INVALID_SIGNATURE);
         } catch (ExpiredJwtException e) {
-            log.error("만료된 JWT 토큰입니다.");
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_HAS_EXPIRED);
         } catch (UnsupportedJwtException e) {
-            log.error("지원되지 않는 JWT 토큰입니다.");
+            throw new CustomException(ErrorCode.UNSUPPORTED_TOKEN);
         } catch (IllegalArgumentException e1) {
-            log.error("JWT 토큰이 잘못되었습니다.");
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
         } catch (NullPointerException e) {
-            log.error("JWT 토큰이 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.NON_EXIST_TOKEN);
         }
     }
 
-    public Claims parseClaims(String accessToken) {
+
+
+    public Claims parseClaims(Token token) {
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(accessToken)
+                    .parseClaimsJws(token.getAccessToken())
                     .getBody();
-
         } catch (ExpiredJwtException e) {
-            e.printStackTrace();
-            return e.getClaims();
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_HAS_EXPIRED);
         }
     }
-
 }

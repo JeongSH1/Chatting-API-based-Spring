@@ -1,6 +1,6 @@
 package com.demo.springreact.exception;
 
-import com.demo.springreact.response.ErrorResponse;
+import com.demo.springreact.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

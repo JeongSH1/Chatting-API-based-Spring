@@ -7,6 +7,8 @@ const MemberList = () => {
 
     const [members, setMembers] = useState([])
     const [selectedMembers, setSelectedMembers] = useState([])
+    const formData = new FormData();
+    const token = localStorage.getItem("token")
 
     const loadMembers = async () => {
         await axios({
@@ -18,7 +20,7 @@ const MemberList = () => {
             data: localStorage.getItem("token"),
             withCredentials: true,
         }).then(response => {
-            setMembers(response.data.data);
+            setMembers(response.data);
         })
     }
 
@@ -30,7 +32,7 @@ const MemberList = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            data: selectedMembers,
+            data: formData,
             withCredentials: true,
         }).then(response => {
             console.log(response);

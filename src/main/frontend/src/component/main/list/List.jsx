@@ -17,7 +17,7 @@ const List = () => {
     const loadChatList = async () => {
         await axios({
             method: "POST",
-            url: "/load/list",
+            url: ["/authenticate", "/load/list"],
             headers: {
                 "Content-Type" : "application/json",
             },
@@ -26,7 +26,8 @@ const List = () => {
         }).then((response) => {
             console.log(response);
         }).catch((response) => {
-            alert(response.response.data.code);
+            alert(response);
+            console.log(response);
             navigate("/login");
         });
 

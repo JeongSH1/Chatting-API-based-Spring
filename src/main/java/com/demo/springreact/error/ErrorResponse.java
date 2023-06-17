@@ -1,4 +1,4 @@
-package com.demo.springreact.response;
+package com.demo.springreact.error;
 
 import lombok.Builder;
 import lombok.Getter;

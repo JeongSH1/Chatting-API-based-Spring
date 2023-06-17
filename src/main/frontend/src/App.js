@@ -26,13 +26,17 @@ function App() {
                 data: localStorage.getItem("token"),
                 withCredentials: true,
             }).then(response => {
+                console.log(response);
                 const status = response.data.responseStatus;
-                (status === "AUTHENTICATED") ? setAuthenticated(true) : setAuthenticated(false);
+                //(status === "AUTHENTICATED") ? setAuthenticated(true) : setAuthenticated(false);
                 if (!authenticated)
                     navigate("/login");
+            }).catch(() => {
+                localStorage.clear();
             });
         }
-        authenticate().then();
+        if (localStorage.getItem("token") !== null)
+            authenticate().then();
     }, [authenticated])
 
     useEffect(() => {

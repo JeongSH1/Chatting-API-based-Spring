@@ -16,7 +16,6 @@ import axios from "axios";
 const Main = (props) => {
     const navigate = useNavigate();
 
-
     return (
         <MDBContainer fluid className="py-5" style={{ backgroundColor: "#CDC4F9" }}>
             <MDBRow>
