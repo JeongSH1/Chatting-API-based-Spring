@@ -1,6 +1,7 @@
 package com.demo.springreact.entity;
 
 import com.demo.springreact.dto.MemberDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "members")
     List<ChattingRoom> chattingRoomList = new ArrayList<>();
 

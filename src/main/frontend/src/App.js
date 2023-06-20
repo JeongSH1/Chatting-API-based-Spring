@@ -26,13 +26,12 @@ function App() {
                 data: localStorage.getItem("token"),
                 withCredentials: true,
             }).then(response => {
-                console.log(response);
-                const status = response.data.responseStatus;
-                //(status === "AUTHENTICATED") ? setAuthenticated(true) : setAuthenticated(false);
+                const status = response.data;
+                (status) ? setAuthenticated(true) : setAuthenticated(false);
                 if (!authenticated)
                     navigate("/login");
             }).catch(() => {
-                localStorage.clear();
+                alert("auth error: app")
             });
         }
         if (localStorage.getItem("token") !== null)

@@ -9,25 +9,37 @@ import {useNavigate} from "react-router-dom";
 
 const List = () => {
     const token = localStorage.getItem("token");
-    const [members, setMembers] = useState([]);
     const [visible, setVisible] = useState(false);
     const [chatList, setChatList] = useState([]);
+    const [refresh, setRefresh] = useState(false);
     const navigate = useNavigate();
 
     const loadChatList = async () => {
         await axios({
             method: "POST",
-            url: ["/authenticate", "/load/list"],
+            url: "/authenticate",
             headers: {
                 "Content-Type" : "application/json",
             },
             data: token,
             withCredentials: true,
-        }).then((response) => {
-            console.log(response);
+        }).then(async (response) => {
+            await axios({
+                method: "POST",
+                url: "/load/chatList",
+                headers: {
+                    "Content-Type" : "application/json",
+                },
+                data: token,
+                withCredentials: true,
+            }).then((response)=>{
+                setChatList(response.data);
+                setVisible(false);
+                setRefresh(false);
+            })
+
         }).catch((response) => {
-            alert(response);
-            console.log(response);
+            alert("auth error: list");
             navigate("/login");
         });
 
@@ -52,11 +64,11 @@ const List = () => {
     }
     useEffect(() => {
         loadChatList().then();
-    }, [chatList])
+    }, [refresh])
 
     return (
         <MDBCol md="6" lg="5" xl="4" className="mb-4 mb-md-0">
-            {visible ?  <MemberList /> : null}
+            {visible ?  <MemberList setRefresh = {setRefresh} /> : null}
 
             <div className="btn_wrap">
                 <Button variant="primary" size="lg" className="btn_create" onClick={create}>
@@ -224,8 +236,14 @@ const List = () => {
                     {/*        </div>*/}
                     {/*    </a>*/}
                     {/*</li>*/}
+                    {
+                        chatList.map((chat, idx) => {
+                            return (
+                                <ListFragment chat = {chat} key = {idx}/>
+                            )
+                        })
 
-                    <ListFragment/>
+                    }
                 </MDBTypography>
             </div>
         </MDBCol>

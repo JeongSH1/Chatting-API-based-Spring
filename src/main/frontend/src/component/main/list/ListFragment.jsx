@@ -1,6 +1,8 @@
 import React from "react";
 
 const ListFragment = (props) => {
+    const name = props.chat.name;
+
     return (
         <li className="p-2 border-bottom">
             <a
@@ -18,7 +20,7 @@ const ListFragment = (props) => {
                         <span className="badge bg-success badge-dot"></span>
                     </div>
                     <div className="pt-1">
-                        <p className="fw-bold mb-0">Marie Horwitz</p>
+                        <p className="fw-bold mb-0">{name}</p>
                         <p className="small text-muted">
                             Hello, Are you there?
                         </p>

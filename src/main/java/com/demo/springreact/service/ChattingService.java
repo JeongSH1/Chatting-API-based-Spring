@@ -9,6 +9,7 @@ import com.demo.springreact.repository.MemberRepository;
 import com.demo.springreact.error.ErrorCode;
 import com.demo.springreact.token.Token;
 import com.demo.springreact.token.TokenVerifier;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class ChattingService {
             memberRepository.findById(i).orElse(null)
         ).toList();
         ChattingRoom chattingRoom = new ChattingRoom();
-        chattingRoom.setMembers(new ArrayList<>(members));
+        chattingRoom.setMembers(members);
         chattingRoom.setName(members.stream().map(Member::getNickname).toList().toString());
         ChattingRoom createdChattingRoom = chattingRepository.save(chattingRoom);
         log.info("생성된 채팅방: " + chattingRoom.getName());
@@ -45,7 +46,7 @@ public class ChattingService {
         String email = tokenVerifier.parseClaims(token).getSubject();
         Member findMember = memberRepository.findByEmail(email)
                 .orElseThrow(()-> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
-        log.info("채팅방을 불러옵니다. " + findMember.getChattingRoomList());
+        log.info("채팅방을 불러옵니다. " + email);
         return findMember.getChattingRoomList();
     }
 

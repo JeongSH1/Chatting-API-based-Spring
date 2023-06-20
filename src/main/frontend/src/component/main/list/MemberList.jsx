@@ -3,11 +3,11 @@ import {Button, Form, ListGroup} from "react-bootstrap";
 import axios from "axios";
 
 
-const MemberList = () => {
+const MemberList = (props) => {
 
     const [members, setMembers] = useState([])
     const [selectedMembers, setSelectedMembers] = useState([])
-    const formData = new FormData();
+
     const token = localStorage.getItem("token")
 
     const loadMembers = async () => {
@@ -21,23 +21,41 @@ const MemberList = () => {
             withCredentials: true,
         }).then(response => {
             setMembers(response.data);
+        }).catch(()=> {
+            console.log(localStorage.getItem("token"))
         })
     }
 
     const createRoom = async (e) => {
         e.preventDefault();
+
         await axios({
             method: "POST",
-            url: "/chat/create",
+            url: "/authenticate",
             headers: {
                 "Content-Type": "application/json",
             },
-            data: formData,
+            data: token,
             withCredentials: true,
-        }).then(response => {
-            console.log(response);
-            alert(response);
+        }).then(async () => {
+            await axios({
+                method: "POST",
+                url: "/chat/create",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                data: selectedMembers,
+                withCredentials: true,
+            }).then(response => {
+                props.setRefresh(true);
+            }).catch(() => {
+                alert("error: create")
+            })
+
+        }).catch(()=>{
+            alert("auth error: memberlist");
         })
+
     }
 
     const onChange = (e) => {
@@ -46,8 +64,7 @@ const MemberList = () => {
     }
 
     useEffect(() => {
-        console.log(members);
-        loadMembers()
+        loadMembers().then();
     }, [])
     return (
         <div className="member_list">

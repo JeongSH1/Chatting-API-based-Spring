@@ -1,11 +1,10 @@
 package com.demo.springreact.controller;
 
 import com.demo.springreact.dto.MemberDTO;
+import com.demo.springreact.dto.RoomDTO;
 import com.demo.springreact.entity.ChattingRoom;
 import com.demo.springreact.service.ChattingService;
-import com.demo.springreact.service.MemberService;
 import com.demo.springreact.token.Token;
-import com.demo.springreact.token.TokenVerifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +21,9 @@ import java.util.List;
 public class LoadController {
     private final ChattingService chattingService;
 
-    @PostMapping("/list")
-    public List<ChattingRoom> loadChattingRoom(@RequestBody Token token) {
-        return chattingService.loadChattingRoom(token);
+    @PostMapping("/chatList")
+    public List<RoomDTO> loadChattingRoom(@RequestBody Token token) {
+        return chattingService.loadChattingRoom(token).stream().map(ChattingRoom::toDTO).toList();
     }
 
     @PostMapping("/members")
