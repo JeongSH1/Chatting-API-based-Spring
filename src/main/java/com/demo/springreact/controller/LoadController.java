@@ -3,6 +3,7 @@ package com.demo.springreact.controller;
 import com.demo.springreact.dto.MemberDTO;
 import com.demo.springreact.dto.RoomDTO;
 import com.demo.springreact.entity.ChattingRoom;
+import com.demo.springreact.entity.Message;
 import com.demo.springreact.service.ChattingService;
 import com.demo.springreact.token.Token;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,10 @@ public class LoadController {
     @PostMapping("/members")
     public List<MemberDTO> loadMembers (@RequestBody Token token) {
        return chattingService.loadMembers(token);
+    }
+
+    @PostMapping("/contents")
+    public List<Message> loadContents(@RequestBody Long id) {
+        return chattingService.loadContents(id);
     }
 }

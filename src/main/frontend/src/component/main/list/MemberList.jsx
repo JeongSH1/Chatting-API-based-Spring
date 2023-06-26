@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, ListGroup} from "react-bootstrap";
 import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {changeTarget} from "../../redux/Store";
 
 
 const MemberList = (props) => {
 
     const [members, setMembers] = useState([])
     const [selectedMembers, setSelectedMembers] = useState([])
-
     const token = localStorage.getItem("token")
+    const dispatch = useDispatch();
 
     const loadMembers = async () => {
         await axios({
@@ -48,7 +50,8 @@ const MemberList = (props) => {
                 withCredentials: true,
             }).then(response => {
                 props.setRefresh(true);
-            }).catch(() => {
+                dispatch(changeTarget(response.data));
+            }).catch((error) => {
                 alert("error: create")
             })
 

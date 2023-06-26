@@ -1,7 +1,31 @@
 import {MDBCol, MDBIcon} from "mdb-react-ui-kit";
-import React from "react";
+import React, {useEffect} from "react";
+import {useSelector} from "react-redux";
+import axios from "axios";
 
-const Chat = () => {
+const Chat = (props) => {
+    const token = localStorage.getItem("token");
+    const loadContents = async () => {
+        await axios({
+            method: "POST",
+            url: `/load/contents`,
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            data: props.target.target,
+            withCredentials: true,
+        }).then((response)=> {
+            console.log(response);
+        }).catch(()=> {
+                console.log(props.target.target)
+            }
+        )
+    }
+
+    useEffect(()=> {
+        loadContents().then();
+    })
+
     return (
         <MDBCol md="6" lg="7" xl="8">
             <div className="d-flex flex-row justify-content-start">

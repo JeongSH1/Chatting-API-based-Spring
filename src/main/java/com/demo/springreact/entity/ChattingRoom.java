@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,7 @@ public class ChattingRoom {
 
     @OneToMany(mappedBy = "chattingRoom", cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
-
-
+    private Date recentDate = new Date();
     @ManyToMany
     @JoinTable(name = "chatting_room_member",
             joinColumns = @JoinColumn(name = "chatting_room_id"),
@@ -32,8 +32,10 @@ public class ChattingRoom {
 
     public static RoomDTO toDTO(ChattingRoom chattingRoom) {
         RoomDTO roomDTO = new RoomDTO();
+        roomDTO.setId(chattingRoom.getId());
         roomDTO.setName(chattingRoom.getName());
-
+        roomDTO.setRecentdate(chattingRoom.getRecentDate());
+        //roomDTO.setLastMessage(chattingRoom.getMessages()[]);
         return roomDTO;
     }
 

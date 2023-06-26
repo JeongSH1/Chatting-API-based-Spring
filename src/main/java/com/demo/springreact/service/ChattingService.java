@@ -3,6 +3,7 @@ package com.demo.springreact.service;
 import com.demo.springreact.dto.MemberDTO;
 import com.demo.springreact.entity.ChattingRoom;
 import com.demo.springreact.entity.Member;
+import com.demo.springreact.entity.Message;
 import com.demo.springreact.exception.CustomException;
 import com.demo.springreact.repository.ChattingRepository;
 import com.demo.springreact.repository.MemberRepository;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,5 +58,11 @@ public class ChattingService {
         log.info("멤버를 불러옵니다." + tokenVerifier.parseClaims(token).getSubject());
         memberRepository.findAll().forEach(i -> memberDTOs.add(i.toDTO()));
         return memberDTOs;
+    }
+
+    public List<Message> loadContents(Long id) {
+        ChattingRoom room = chattingRepository.findById(id)
+                .orElseThrow(()-> new CustomException(ErrorCode.NON_EXIST_ROOM));
+        return room.getMessages();
     }
 }

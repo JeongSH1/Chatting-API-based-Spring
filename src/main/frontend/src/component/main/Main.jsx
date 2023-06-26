@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
 import {
     MDBContainer,
     MDBRow,
@@ -8,11 +8,15 @@ import {
 } from "mdb-react-ui-kit";
 import List from "./list/List";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
 import Chat from "./chat/Chat";
+import {useSelector} from "react-redux";
 
 const Main = (props) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const target = useSelector((state) => {
+        return state.target;
+    });
+
     return (
         <MDBContainer fluid className="py-5" style={{ backgroundColor: "#CDC4F9" }}>
             <MDBRow>
@@ -21,7 +25,7 @@ const Main = (props) => {
                         <MDBCardBody>
                             <MDBRow>
                                 {props.authenticated ? <List/> : null}
-                                <Chat/>
+                                <Chat target = {target}/>
                             </MDBRow>
                         </MDBCardBody>
                     </MDBCard>

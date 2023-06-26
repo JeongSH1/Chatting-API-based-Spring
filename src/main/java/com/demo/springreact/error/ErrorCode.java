@@ -13,7 +13,8 @@ public enum ErrorCode {
     REFRESH_TOKEN_HAS_EXPIRED(HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
     INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "잘못된 JWT 서명입니다."),
     UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "지원되지 않는 JWT 토큰입니다."),
-    NON_EXIST_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다.");
+    NON_EXIST_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
+    NON_EXIST_ROOM(HttpStatus.BAD_REQUEST, "채팅방이 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

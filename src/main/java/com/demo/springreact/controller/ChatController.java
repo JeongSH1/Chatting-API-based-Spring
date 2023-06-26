@@ -18,7 +18,7 @@ public class ChatController {
     private final ChattingService chattingService;
 
     @PostMapping("/create")
-    public void create(@RequestBody List<Long> list) {
-        chattingService.createRoom(list);
+    public Long create(@RequestBody List<Long> list) {
+        return chattingService.createRoom(list);
     }
 }

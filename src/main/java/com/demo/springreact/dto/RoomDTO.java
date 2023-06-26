@@ -10,8 +10,10 @@ import java.util.Date;
 @Getter
 @Setter
 public class RoomDTO {
+
+    private Long id;
     private String name;
     private String lastMessage;
-    private Date date;
+    private Date Recentdate;
     private Long notReadCounting;
 }
