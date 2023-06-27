@@ -15,7 +15,6 @@ const target = createSlice({
 })
 
 export const { changeTarget } = target.actions;
-
 const Store = configureStore({
     reducer: {
         target: target.reducer,

@@ -4,6 +4,7 @@ import axios from "axios";
 import {useDispatch, connect, useSelector} from "react-redux";
 import { setToken } from "./TokenSlice";
 import Modal from "react-bootstrap/Modal";
+import setAuthorizationToken from "../utils/setAuthorizationToken";
 
 const Login = (props) => {
 
@@ -36,9 +37,12 @@ const Login = (props) => {
         }).then(response => {
             setModalContent("로그인 성공");
             setModalShow(true);
-            dispatch(setToken(response.data));
-            localStorage.setItem("token", JSON.stringify(response.data));
-            window.location.href = "/main";
+            const accessToken = response.data.accessToken;
+            const refreshToken = response.data.refreshToken;
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+            setAuthorizationToken(accessToken);
+            //window.location.href = "/main";
         }).catch(response => {
             setModalContent(response.response.data.code);
             setModalShow(true);
