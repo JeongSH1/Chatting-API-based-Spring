@@ -2,17 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, BrowserRouter as Route, Router} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
-import {Provider} from "react-redux";
-import Store from "./component/redux/Store";
+import { AuthProvider } from "./context/AuthProvider";
 
 const root = document.getElementById('root');
 ReactDOM.createRoot(root).render(
     <BrowserRouter>
-        <Provider store={Store}>
+        <AuthProvider>
             <App/>
-        </Provider>
+        </AuthProvider>
     </BrowserRouter>
 );
 

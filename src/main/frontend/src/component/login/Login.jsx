@@ -1,17 +1,19 @@
-import React, {useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import "./login.css";
 import axios from "axios";
-import {useDispatch, connect, useSelector} from "react-redux";
-import { setToken } from "./TokenSlice";
 import Modal from "react-bootstrap/Modal";
-import setAuthorizationToken from "../utils/setAuthorizationToken";
+import useAuth from "../../hooks/useAuth";
+import {useLocation, useNavigate} from "react-router-dom";
 
 const Login = (props) => {
+    const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
+    const from = "/main"
 
     const formData = new FormData();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const dispatch = useDispatch();
     const [modalShow, setModalShow] = useState(false);
     const [modalContent, setModalContent] = useState("");
 
@@ -26,6 +28,7 @@ const Login = (props) => {
         formData.append("email", email);
         formData.append("password", password);
         e.preventDefault();
+
         await axios({
             method: "POST",
             url: `/login`,
@@ -39,12 +42,18 @@ const Login = (props) => {
             setModalShow(true);
             const accessToken = response.data.accessToken;
             const refreshToken = response.data.refreshToken;
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("refreshToken", refreshToken);
-            setAuthorizationToken(accessToken);
-            //window.location.href = "/main";
+            setAuth({email, password, accessToken, refreshToken});
+            setEmail('');
+            setPassword('');
+            navigate(from, {replace: true});
+
         }).catch(response => {
-            setModalContent(response.response.data.code);
+            if (response.response.status === 500) {
+                setModalContent("응답이 없습니다.");
+            } else {
+                const message = response.response.data.message;
+                setModalContent(message);
+            }
             setModalShow(true);
         })
     };
