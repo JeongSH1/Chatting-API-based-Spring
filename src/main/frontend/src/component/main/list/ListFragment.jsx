@@ -1,14 +1,12 @@
 import React from "react";
 import axios from "axios";
 import {useDispatch} from "react-redux";
-import {changeTarget} from "../../redux/Store";
 
 const ListFragment = (props) => {
     const name = props.chat.name;
     const token = localStorage.getItem("token");
     const dispatch = useDispatch();
     const onClick = () => {
-        dispatch(changeTarget(props.chat.id))
     }
     return (
         <li className="p-2 border-bottom">

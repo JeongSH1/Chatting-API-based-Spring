@@ -4,6 +4,7 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import useAuth from "../../hooks/useAuth";
 import {useLocation, useNavigate} from "react-router-dom";
+import {useLoginMutation} from "../../features/auth/authApiSlice";
 
 const Login = (props) => {
     const { setAuth } = useAuth();
@@ -16,6 +17,7 @@ const Login = (props) => {
     const [password, setPassword] = useState("");
     const [modalShow, setModalShow] = useState(false);
     const [modalContent, setModalContent] = useState("");
+    const [login, {isLoading}] = useLoginMutation()
 
     const onEmailChange = (e) => {
         setEmail(e.target.value);
@@ -24,38 +26,44 @@ const Login = (props) => {
         setPassword(e.target.value);
     }
 
-    const onSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         formData.append("email", email);
         formData.append("password", password);
         e.preventDefault();
 
-        await axios({
-            method: "POST",
-            url: `/login`,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            data: formData,
-            withCredentials:true,
-        }).then(response => {
-            setModalContent("로그인 성공");
-            setModalShow(true);
-            const accessToken = response.data.accessToken;
-            const refreshToken = response.data.refreshToken;
-            setAuth({email, password, accessToken, refreshToken});
-            setEmail('');
-            setPassword('');
-            navigate(from, {replace: true});
+        // await axios({
+        //     method: "POST",
+        //     url: `/login`,
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     data: formData,
+        //     withCredentials:true,
+        // }).then(response => {
+        //     setModalContent("로그인 성공");
+        //     setModalShow(true);
+        //     const accessToken = response.data.accessToken;
+        //     const refreshToken = response.data.refreshToken;
+        //     setAuth({email, password, accessToken, refreshToken});
+        //     setEmail('');
+        //     setPassword('');
+        //     navigate(from, {replace: true});
+        //
+        // }).catch(response => {
+        //     if (response.response.status === 500) {
+        //         setModalContent("응답이 없습니다.");
+        //     } else {
+        //         const message = response.response.data.message;
+        //         setModalContent(message);
+        //     }
+        //     setModalShow(true);
+        // })
+        try {
+            const data = await login({'email': email, 'password': password}).unwrap();
 
-        }).catch(response => {
-            if (response.response.status === 500) {
-                setModalContent("응답이 없습니다.");
-            } else {
-                const message = response.response.data.message;
-                setModalContent(message);
-            }
-            setModalShow(true);
-        })
+        } catch(err) {
+            console.log("Error", err);
+        }
     };
 
     return (
@@ -75,7 +83,7 @@ const Login = (props) => {
                 <Modal.Body>{modalContent}</Modal.Body>
             </Modal>
 
-            <form className="Auth-form" onSubmit={onSubmit}>
+            <form className="Auth-form" onSubmit={handleSubmit}>
                 <div className="Auth-form-content">
                     <h3 className="Auth-form-title">Sign In</h3>
                     <div className="form-group mt-3">

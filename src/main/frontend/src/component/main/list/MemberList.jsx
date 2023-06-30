@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Button, Form, ListGroup} from "react-bootstrap";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {changeTarget} from "../../redux/Store";
 
 
 const MemberList = (props) => {
@@ -50,7 +49,6 @@ const MemberList = (props) => {
                 withCredentials: true,
             }).then(response => {
                 props.setRefresh(true);
-                dispatch(changeTarget(response.data));
             }).catch((error) => {
                 alert("error: create")
             })
